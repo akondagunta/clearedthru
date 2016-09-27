@@ -18,6 +18,7 @@
 		81B16CAE1D9AECBA0059A6BD /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81B16CAD1D9AECBA0059A6BD /* FBSDKCoreKit.framework */; };
 		81B16CB01D9AECC70059A6BD /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81B16CAF1D9AECC70059A6BD /* FBSDKLoginKit.framework */; };
 		81B16CB21D9AECD20059A6BD /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81B16CB11D9AECD20059A6BD /* FBSDKShareKit.framework */; };
+		81B16CB41D9AF7610059A6BD /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B16CB31D9AF7610059A6BD /* HomeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		81B16CAD1D9AECBA0059A6BD /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "../Downloads/FacebookSDKs-iOS-4.15.1/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
 		81B16CAF1D9AECC70059A6BD /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		81B16CB11D9AECD20059A6BD /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
+		81B16CB31D9AF7610059A6BD /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		A006F4C06B0E2354D7FA0EAF /* Pods-clearedthruUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-clearedthruUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-clearedthruUITests/Pods-clearedthruUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		B74A90C1BA5D6BCC80BF37A9 /* Pods-clearedthruTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-clearedthruTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-clearedthruTests/Pods-clearedthruTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -145,6 +147,7 @@
 				812DB9E61D99B60600B575A1 /* Main.storyboard */,
 				812DB9E91D99B60600B575A1 /* Assets.xcassets */,
 				812DB9EB1D99B60600B575A1 /* LaunchScreen.storyboard */,
+				81B16CB31D9AF7610059A6BD /* HomeViewController.swift */,
 				812DB9EE1D99B60600B575A1 /* Info.plist */,
 			);
 			path = clearedthru;
@@ -433,6 +436,7 @@
 			files = (
 				812DB9E51D99B60600B575A1 /* ViewController.swift in Sources */,
 				812DB9E31D99B60600B575A1 /* AppDelegate.swift in Sources */,
+				81B16CB41D9AF7610059A6BD /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
