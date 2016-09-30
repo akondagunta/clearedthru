@@ -8,7 +8,9 @@
 
 import UIKit
 import FBSDKCoreKit
+import Firebase
 import FirebaseAuth
+import FirebaseStorage
 
 
 class HomeViewController: UIViewController {
@@ -70,8 +72,60 @@ class HomeViewController: UIViewController {
         
         self.userDisplayName.text = name
         
-        let data = NSData(contentsOfURL: photoUrl!)
-        self.userProfileImage.image = UIImage(data: data!)
+        // reference to the Firebase storage service
+        let storage = FIRStorage.storage()
+        
+        // Create a storage reference from our storage service
+        let storageRef = storage.referenceForURL("gs://clearedthru.appspot.com")
+        
+        let profilePicRef = storageRef.child(user.uid + "/profile_pic.jpg")
+
+        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+        profilePicRef.dataWithMaxSize(1 * 1024 * 1024) { (data, error) -> Void in
+          if (error != nil) {
+            // Uh-oh, an error occurred!
+            print("Unable to download image")
+          } else {
+            // Data for "images/island.jpg" is returned
+            // ... let islandImage: UIImage! = UIImage(data: data!)
+            if(data != nil) {
+              print("User already has an image. No need to download from Facebook")
+              self.userProfileImage.image = UIImage(data: data!)
+            }
+          }
+        }
+        
+        if(self.userProfileImage.image == nil) {
+        
+        var profilePic = FBSDKGraphRequest(graphPath: "me/picture", parameters: ["height":300, "width":300, "redirect":false], HTTPMethod: "GET")
+        profilePic.startWithCompletionHandler({(connection, result, error) -> Void in
+          if(error == nil)
+          {
+            let dictonary = result as? NSDictionary
+            let data = dictonary?.objectForKey("data")
+            
+            let urlPic = (data?.objectForKey("url"))! as! String
+            
+            if let imageData = NSData(contentsOfURL: NSURL(string:urlPic)!)
+            {
+              let uploadTask = profilePicRef.putData(imageData, metadata: nil) {
+                metadata, error in
+                if(error == nil)
+                {
+                  // size, contentType or downloadURL
+                  let downloadUrl = metadata!.downloadURL
+                  
+                } else
+                {
+                  print("error downloading profile pic")
+                }
+              }
+              self.userProfileImage.image = UIImage(data: imageData)
+            }
+          }
+        })
+        }
+        
       } else {
         // No user is signed in.
       }

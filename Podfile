@@ -9,6 +9,7 @@ target 'clearedthru' do
   pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'Firebase/Auth'
+  pod 'Firebase/Storage'
 
   target 'clearedthruTests' do
     inherit! :search_paths

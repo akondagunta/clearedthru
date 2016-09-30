@@ -9,6 +9,8 @@
 import UIKit
 import FBSDKLoginKit
 import FirebaseAuth
+import Firebase
+import FirebaseStorage
 
 class ViewController: UIViewController, FBSDKLoginButtonDelegate {
   
@@ -27,7 +29,7 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
           // User is signed in.
           // Move user to the home screen
           let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-          let homeViewController: UIViewController = mainStoryboard.instantiateViewControllerWithIdentifier("HomeView")
+          let homeViewController: UIViewController = mainStoryboard.instantiateViewControllerWithIdentifier("TabBarControllerView")
           self.presentViewController(homeViewController, animated: true, completion: nil)
           
         } else {
@@ -74,6 +76,63 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
         
         FIRAuth.auth()?.signInWithCredential(credential) { (user, error) in
           print ("User logged in to firebase app: " + (user?.displayName)!)
+          // when the user logs in for the first time, we'll store the users name and the users email on their profile page.
+          // also store the small version of the profile picture in the database and in the storage
+          
+          if(error == nil)
+          {
+            let storage = FIRStorage.storage()
+            let storageRef = storage.referenceForURL("gs://clearedthru.appspot.com")
+            let profilePicRef = storageRef.child(user!.uid + "/profile_pic_small.jpg")
+            
+            //store the userId
+            let userId = user?.uid
+            let databaseRef = FIRDatabase.database().reference()
+            
+            databaseRef.child("user_profile").child(userId!).child("profile_pic_small").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+              
+              let profile_pic = snapshot.value as? String?
+              
+              if(profile_pic == nil)
+              {
+                if let imageData = NSData(contentsOfURL: user!.photoURL!)
+                {
+                  let uploadTask = profilePicRef.putData(imageData, metadata:nil){
+                    metadata, error in
+                      if(error == nil)
+                      {
+                        let downloadURL = metadata!.downloadURL
+                        
+                        databaseRef.child("user_profile").child("\(user!.uid)/profile_pic_small").setValue(downloadURL()!.absoluteString)
+                        
+                      }
+                  }
+
+                }
+                
+                //store data into the users profile page
+                databaseRef.child("user_profile").child("\(user!.uid)/name").setValue(user?.displayName)
+                databaseRef.child("user_profile").child("\(user!.uid)/gender").setValue("")
+                databaseRef.child("user_profile").child("\(user!.uid)/age").setValue("")
+                databaseRef.child("user_profile").child("\(user!.uid)/phone").setValue("")
+                databaseRef.child("user_profile").child("\(user!.uid)/email").setValue("")
+                databaseRef.child("user_profile").child("\(user!.uid)/website").setValue("")
+                databaseRef.child("user_profile").child("\(user!.uid)/bio").setValue("")
+                
+              } else {
+                print("User has logged in earlier!")
+              }
+              
+              
+            })
+            
+            
+            
+            
+          }
+          
+          
+          
         }
         
       }
