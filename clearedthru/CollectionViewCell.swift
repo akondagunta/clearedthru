@@ -10,10 +10,10 @@ import UIKit
 
 class CollectionViewCell: UICollectionViewCell {
   
-  
-  @IBOutlet weak var userImage: UIImageView!
   @IBOutlet weak var userName: UILabel!
   
+  @IBOutlet weak var userImage: UIImageView!
+    
   override func layoutSubviews() {
     super.layoutSubviews()
     self.makeItRound()

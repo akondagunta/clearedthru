@@ -61,6 +61,7 @@ class ProfileTableViewController: UITableViewController {
       var refHandle = self.ref.child("user_profile").observeEventType(FIRDataEventType.Value, withBlock: { (snapshot) in
         let usersDict = snapshot.value as! [String : AnyObject] as! NSDictionary
         // ...
+        
         print(usersDict)
         let userDetails = usersDict.objectForKey(self.user!.uid)
         

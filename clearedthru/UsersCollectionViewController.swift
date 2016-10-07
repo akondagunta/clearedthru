@@ -9,11 +9,10 @@
 import UIKit
 import FirebaseDatabase
 
-private let reuseIdentifier = "CollectionViewCell"
 
 class UsersCollectionViewController: UICollectionViewController {
-
   
+  private let reuseIdentifier = "CollectionViewCell"
   var databaseRef = FIRDatabase.database().reference()
   var usersDict = NSDictionary?()
   
@@ -21,12 +20,13 @@ class UsersCollectionViewController: UICollectionViewController {
   var userImagesArray = [String]()
   
     override func viewDidLoad() {
-        super.viewDidLoad()
+      super.viewDidLoad()
       
-      self.databaseRef.child("user_profile").observeEventType(.Value, withBlock :{
-        (snapshot) in
-        
-        self.usersDict = snapshot.value as? NSDictionary
+      self.view.backgroundColor = UIColor.whiteColor()
+      
+      self.databaseRef.child("user_profile").observeEventType(FIRDataEventType.Value, withBlock: { (snapshot) in
+        self.usersDict = snapshot.value as! [String : AnyObject] as NSDictionary
+        // ...
         
         
         for(userId,details) in self.usersDict! {
@@ -78,7 +78,7 @@ class UsersCollectionViewController: UICollectionViewController {
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! CollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(self.reuseIdentifier, forIndexPath: indexPath) as! CollectionViewCell
       let imageUrl = NSURL(string:userImagesArray[indexPath.row])
       
       let imageData = NSData(contentsOfURL: imageUrl!)
